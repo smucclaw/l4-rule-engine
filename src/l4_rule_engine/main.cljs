@@ -225,21 +225,13 @@
     :goals ?goals
     :trace ?trace}
 
-  ;; To trace arithmetic exprs, can leverage the tracing facilities of the
-  ;; abstract machine by desugaring nested operators like so: 
-  ;;  x IS SUM (PRODUCT ...) ...
-  ;;  => 
-  ;;  y IS PRODUCT ...
-  ;;  x IS SUM y ...
-
-  ;;  {:ruleset ?ruleset
-  ;;   :env ?env
-  ;;   :goals [(m/and ?goal (?var IS SUM (m/app #(apply + %) ?number))) & ?goals]
-  ;;   :trace ?trace}
-  ;;  {:ruleset ?ruleset
-  ;;   :env {?var ?number & ?env}
-  ;;   :goals ?goals
-  ;;   :trace ?trace}
+   ;; TODO
+   ;; To trace arithmetic exprs, can leverage the tracing facilities of the
+   ;; abstract machine by desugaring nested operators like so: 
+   ;;  x IS SUM (PRODUCT ...) ...
+   ;;  => 
+   ;;  y IS PRODUCT ...
+   ;;  x IS SUM y ...
    ))
 
 #_(defn test! []
