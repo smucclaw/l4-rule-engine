@@ -1,0 +1,21 @@
+{
+  "name": "l4-rule-engine",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "shadow-cljs": "2.27.4"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "shadow-cljs:release": "shadow-cljs release app",
+    "start": "shadow-cljs watch app",
+    "build:prod": "shadow-cljs release app",
+    "build:dev": "shadow-cljs compile app",
+    "server": "shadow-cljs server"
+  },
+  "dependencies": {
+    "@js-joda/core": "^5.6.1",
+    "@js-joda/locale_en-us": "^4.8.11",
+    "@js-joda/timezone": "^2.18.2"
+  }
+}

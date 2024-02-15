@@ -1,0 +1,10 @@
+;; shadow-cljs configuration
+{:deps true
+ :dev-http {8000 "public"}
+ :builds
+ {:app
+  {:target :esm
+   :output-dir "public/js"
+   :modules {:main {:js-options {:js-provider :import}
+                    :exports {test l4-rule-engine.main/test!
+                              step l4-rule-engine.main/test!}}}}}}
