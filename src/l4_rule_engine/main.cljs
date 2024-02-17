@@ -8,7 +8,7 @@
   (contains? @asked fact))
 
 (defn- add-asked! [fact bool]
-  (swap! asked conj [fact bool]))
+  (swap! asked assoc fact bool))
 
 (defn step [state]
   "Axiomatisation of (non-deterministic) small step reduction for an abstract
@@ -243,7 +243,7 @@
                                            (m/and (m/not ?term)
                                                   (m/guard (not (number? ?term)))
                                                   ?number
-                                                  (m/let [?env' (conj ?env [?term ?number])]))))))
+                                                  (m/let [?env' (assoc ?env ?term ?number)]))))))
                 & ?goals]
         :trace ?trace}
        {:ruleset ?ruleset
