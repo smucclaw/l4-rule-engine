@@ -76,6 +76,11 @@
    ;; store ?ruleset as nested maps with the following shape to facilitate more
    ;; efficient lookup:
    ;;    {?predicate_name: {?arity: ?sequence_of_rules}}
+   ;; Note that this can still be inefficient as we will still perform repeated
+   ;; computations when predicates with the same args are evaluated.
+   ;; This can be addressed by tabled execution.
+   ;; Also note that such recomputation will also arise in a naive transpilation
+   ;; to JS/TS/any other lanugage, unless one involves memoization.
    {:ruleset (m/and ?ruleset (m/scan (DECIDE ?goal IF ?body)))
     :env ?env
     :goals [?goal & ?goals]
