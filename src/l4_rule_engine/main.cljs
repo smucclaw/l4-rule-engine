@@ -69,7 +69,14 @@
    ;; ---------------------------------------------------------- [Rule application]
    ;;〈?ruleset, ?env, ?goal : ?goals, ?trace〉
    ;; ⟶ 〈?ruleset, ?env, ?body : ?goals, (EDGE ?goal ?body) : ?trace〉
-   {:ruleset (m/and ?ruleset #{(DECIDE ?goal IF ?body) ^& ?rest})
+   ;;
+   ;; This implementation is not so efficient as it performs a linear traversal
+   ;; over all clauses to select an applicable one.
+   ;; Better idea:
+   ;; store ?ruleset as nested maps with the following shape to facilitate more
+   ;; efficient lookup:
+   ;;    {?predicate_name: {?arity: ?sequence_of_rules}}
+   {:ruleset (m/and ?ruleset (m/scan (DECIDE ?goal IF ?body)))
     :env ?env
     :goals [?goal & ?goals]
     :trace ?trace}
@@ -146,7 +153,7 @@
    ;; -------------------------------------------------------------------- [Assertz]
    ;; 〈?ruleset, ?env, (ASSERTZ ?rule) : ?goals, ?trace〉⟶〈?ruleset ∪ {?rule}, ?env, ?goals, ?trace〉
    {:ruleset ?ruleset :env ?env :goals [(ASSERTZ ?rule) & ?goals] :trace ?trace}
-   {:ruleset #{?rule ^& ?ruleset} :env ?env :goals ?goals :trace ?trace}
+   {:ruleset ~(conj ?ruleset ?rule) :env ?env :goals ?goals :trace ?trace}
 
    ;; TODO
    ;;
@@ -251,7 +258,7 @@
 
 (defn test! []
   (js/console.log
-   (->> {:ruleset '#{(DECIDE p IF ((x IS SUM [0 1 2]) OR (x IS 3)))}
+   (->> {:ruleset '[(DECIDE p IF (q OR (x IS SUM [0 1 2])))]
          :env {}
          :goals '[p]
          :trace []}
@@ -263,6 +270,6 @@
         step first
         step first
         step
-        ((fn [[x y]] [x (first (step y))]))
-        ((fn [[x y]] [x (first (step y))]))
+        #_((fn [[x y]] [x (first (step y))]))
+        #_((fn [[x y]] [x (first (step y))]))
         )))
