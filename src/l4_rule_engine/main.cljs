@@ -2,7 +2,15 @@
   (:require [meander.epsilon :as m]
             [meander.strategy.epsilon :as r]))
 
-(def step
+(def ^:private asked (atom {}))
+
+(defn- asked? [fact]
+  (contains? @asked fact))
+
+(defn- add-asked! [fact bool]
+  (swap! asked conj [fact bool]))
+
+(defn step [state]
   "Axiomatisation of (non-deterministic) small step reduction for an abstract
    machine interpreter for L4.
 
@@ -52,7 +60,9 @@
    - https://www.cs.cmu.edu/~crary/papers/2018/twam.pdf
    - https://homepage.divms.uiowa.edu/~slonnegr/plf/Book/Chapter8.pdf
    "
-  (r/rewrites
+  (if-let [state
+           (not-empty
+            (m/rewrites state
    ;; For rule applications, we lookup the ?goal in the global rule environment
    ;; and then substitute the current goal statement with its body.
    ;; TODO:
@@ -81,18 +91,22 @@
    ;; This can be addressed by tabled execution.
    ;; Also note that such recomputation will also arise in a naive transpilation
    ;; to JS/TS/any other lanugage, unless one involves memoization.
-   {:ruleset (m/and ?ruleset (m/scan (DECIDE ?goal IF ?body)))
-    :env ?env
-    :goals [?goal & ?goals]
-    :trace ?trace}
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [?body & ?goals]
-    :trace ~(conj ?trace `(~?goal ~'⟹ ~?body))}
+                        {:ruleset (m/and ?ruleset (m/scan (DECIDE ?goal IF ?body)))
+                         :env ?env
+                         :goals [?goal & ?goals]
+                         :trace ?trace}
+                        {:ruleset ?ruleset
+                         :env ?env
+                         :goals [?body & ?goals]
+                         :trace ~(conj ?trace `(~?goal ~'⟹ ~?body))}))]
+    state
 
    ;; TODO:
    ;; Instead of going into a deadlock when there are no applicable rules/facts,
    ;; consider asking the user for input and then transitioning based on that.
+
+    ((r/choice
+      (r/rewrite
 
    ;; Add metadata as edge to current trace, then refocus the abstract
    ;; machine to continue evaluation.
@@ -101,20 +115,20 @@
    ;; ---------------------------------------------------------- [Tracing]
    ;;〈?ruleset, ?env, (TRACE ?goal PARENT ?parent) : ?goals, ?trace〉
    ;; ⟶ 〈?ruleset, ?env, ?goals ++ [?goal], (EDGE ?parent ?goal) : ?trace〉
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [(TRACE ?goal PARENT ?parent) & ?goals]
-    :trace ?trace}
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [?goal & ?goals]
-    :trace ~(conj ?trace `(~?parent ~'⟹ ~?goal))}
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [(TRACE ?goal PARENT ?parent) & ?goals]
+        :trace ?trace}
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [?goal & ?goals]
+        :trace ~(conj ?trace `(~?parent ~'⟹ ~?goal))}
 
    ;;    ⊢ ?env ok
    ;; ---------------------------------------------------------- [Empty clause]
    ;; 〈?ruleset, ?env, TRUE : ?goals, ?trace〉⟶ 〈?ruleset, ?env, ?goals, ?trace〉
-   {:ruleset ?ruleset :env ?env :goals [TRUE & ?goals] :trace ?trace}
-   {:ruleset ?ruleset :env ?env :goals ?goals :trace ?trace}
+       {:ruleset ?ruleset :env ?env :goals [TRUE & ?goals] :trace ?trace}
+       {:ruleset ?ruleset :env ?env :goals ?goals :trace ?trace}
 
    ;;  ⊢ ?env ok
    ;;  ⊢ ?goal = (?conjunct_0 AND ... AND ?conjunct_n)
@@ -123,14 +137,14 @@
    ;;  ⟶ 〈?ruleset, ?env,
    ;;      (TRACE ?conjunct_0 PARENT ?goal) : ... : (TRACE ?conjunct_n PARENT ?goal) : ?goals,
    ;;      ?trace〉
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [(m/and ?goal (?conjunct . AND !conjuncts ...)) & ?goals]
-    :trace ?trace}
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [(TRACE ?conjunct PARENT ?goal) & [(TRACE !conjuncts PARENT ?goal) ...] & ?goals]
-    :trace ?trace}
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [(m/and ?goal (?conjunct . AND !conjuncts ...)) & ?goals]
+        :trace ?trace}
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [(TRACE ?conjunct PARENT ?goal) & [(TRACE !conjuncts PARENT ?goal) ...] & ?goals]
+        :trace ?trace}
 
    ;;  ⊢ ?env ok
    ;;  ?goal' is a fresh variable not found in the head of any horn clause in ?ruleset
@@ -142,23 +156,23 @@
    ;;       : ... : (TRACE (ASSERTZ (DECIDE ?goal' IF ?disjunct_n)) PARENT ?goal)
    ;;       : ?goal' : (RETRACTALL ?goal') : ?goals,
    ;;     ?trace〉
-   (m/and {:ruleset ?ruleset
-           :env ?env
-           :goals [(m/and ?goal (?disjunct . OR !disjuncts ...)) & ?goals]
-           :trace ?trace}
-          (m/let [?goal' (gensym "GOAL__")]))
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [(TRACE (ASSERTZ (DECIDE ?goal' IF ?disjunct)) PARENT ?goal) &
-            [(TRACE (ASSERTZ (DECIDE ?goal' IF !disjuncts)) PARENT ?goal) ...] &
-            [?goal' & [(RETRACTALL ?goal') & ?goals]]]
-    :trace ?trace}
+       (m/and {:ruleset ?ruleset
+               :env ?env
+               :goals [(m/and ?goal (?disjunct . OR !disjuncts ...)) & ?goals]
+               :trace ?trace}
+              (m/let [?goal' (gensym "GOAL__")]))
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [(TRACE (ASSERTZ (DECIDE ?goal' IF ?disjunct)) PARENT ?goal) &
+                [(TRACE (ASSERTZ (DECIDE ?goal' IF !disjuncts)) PARENT ?goal) ...] &
+                [?goal' & [(RETRACTALL ?goal') & ?goals]]]
+        :trace ?trace}
 
    ;;  ⊢ ?env ok
    ;; -------------------------------------------------------------------- [Assertz]
    ;; 〈?ruleset, ?env, (ASSERTZ ?rule) : ?goals, ?trace〉⟶〈?ruleset ∪ {?rule}, ?env, ?goals, ?trace〉
-   {:ruleset ?ruleset :env ?env :goals [(ASSERTZ ?rule) & ?goals] :trace ?trace}
-   {:ruleset ~(conj ?ruleset ?rule) :env ?env :goals ?goals :trace ?trace}
+       {:ruleset ?ruleset :env ?env :goals [(ASSERTZ ?rule) & ?goals] :trace ?trace}
+       {:ruleset ~(conj ?ruleset ?rule) :env ?env :goals ?goals :trace ?trace}
 
    ;; TODO
    ;;
@@ -167,8 +181,8 @@
    ;; 〈?ruleset, ?env, (RETRACTALL ?term) : ?goals, ?trace〉
    ;; ⟶〈{?rule ∈ ?ruleset | ∃ ?term' ≠ ?term, ∃ ?body, ?rule = (DECIDE ?term' IF ?body)},
    ;;    ?env, ?goals, ?trace〉
-   {:ruleset ?ruleset :env ?env :goals [(RETRACTALL ?term) & ?goals] :trace ?trace}
-   {:ruleset ?ruleset :env ?env :goals ?goals :trace ?trace}
+       {:ruleset ?ruleset :env ?env :goals [(RETRACTALL ?term) & ?goals] :trace ?trace}
+       {:ruleset ?ruleset :env ?env :goals ?goals :trace ?trace}
 
    ;; TODO: Desugar IF p THEN ... ELSE ... assuming the decidability of the
    ;; excluded middle for p.
@@ -218,24 +232,24 @@
    ;; -----------------------------------------------------------
    ;; 〈?ruleset, ?env, (?variable IS SUM ?xs) : ?goals, ?trace〉
    ;;  ⟶ 〈?ruleset, ?env[?variable ↦ ?value], ?goals, ?trace〉
-   {:ruleset ?ruleset
-    :env ?env
-    :goals [(m/and ?goal
-                   (?term IS SUM
-                          (m/app #(apply + %)
-                                 (m/or (m/and ?term
-                                              (m/let [?number nil
-                                                      ?env' ?env]))
-                                       (m/and (m/not ?term)
-                                              (m/guard (not (number? ?term)))
-                                              ?number
-                                              (m/let [?env' (conj ?env [?term ?number])]))))))
-            & ?goals]
-    :trace ?trace}
-   {:ruleset ?ruleset
-    :env ?env'
-    :goals ?goals
-    :trace ?trace}
+       {:ruleset ?ruleset
+        :env ?env
+        :goals [(m/and ?goal
+                       (?term IS SUM
+                              (m/app #(apply + %)
+                                     (m/or (m/and ?term
+                                                  (m/let [?number nil
+                                                          ?env' ?env]))
+                                           (m/and (m/not ?term)
+                                                  (m/guard (not (number? ?term)))
+                                                  ?number
+                                                  (m/let [?env' (conj ?env [?term ?number])]))))))
+                & ?goals]
+        :trace ?trace}
+       {:ruleset ?ruleset
+        :env ?env'
+        :goals ?goals
+        :trace ?trace})
 
    ;; TODO
    ;; To trace arithmetic exprs, can leverage the tracing facilities of the
@@ -244,7 +258,17 @@
    ;;  => 
    ;;  y IS PRODUCT ...
    ;;  x IS SUM y ...
-   ))
+      (r/rewrite
+       (m/and {:ruleset ?ruleset :env ?env :goals [?goal & ?goals] :trace ?trace}
+              (m/guard (not (asked? ?goal)))
+              (m/guard (= (js/prompt (str "Is it true that: " ?goal)) "yes"))
+              (m/let [_ (add-asked! ?goal true)]))
+       {:ruleset ?ruleset :env ?env
+        :goals [(ASSERTZ (DECIDE ?goal IF TRUE)) & ?goals] :trace ?trace}
+
+       (m/and ?state {:goals [?goal & _]} (m/let [_ (add-asked! ?goal false)]))
+       ?state))
+     state)))
 
 #_(defn test! []
   (js/console.log
@@ -261,7 +285,7 @@
         step
         (mapv step))))
 
-(defn test! []
+#_(defn test! []
   (js/console.log
    (->> {:ruleset '[(DECIDE p IF (q OR (x IS SUM [0 1 2])))]
          :env {}
@@ -278,3 +302,15 @@
         #_((fn [[x y]] [x (first (step y))]))
         #_((fn [[x y]] [x (first (step y))]))
         )))
+
+(defn test! []
+  (js/console.log
+   (->> {:ruleset '[(DECIDE p IF a)]
+         :env {}
+         :goals '[p]
+         :trace []}
+        step
+        first
+        step
+        ))
+  (js/console.log "Asked: " @asked))
