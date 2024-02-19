@@ -1,6 +1,10 @@
 (ns l4-rule-engine.main
   (:require [meander.epsilon :as m]
-            [meander.strategy.epsilon :as r]))
+            [meander.strategy.epsilon :as r]
+            [clara.rules :refer [defsession insert fire-rules]]
+            [clara.tools.fact-graph :refer [session->fact-graph]]
+            [clara.tools.inspect :refer [inspect explain-activations]]
+            [l4-rule-engine.clara :refer [->Edge]]))
 
 (def ^:private asked (atom {}))
 
@@ -10,7 +14,7 @@
 (defn- add-asked! [fact bool]
   (swap! asked assoc fact bool))
 
-(defn step [state]
+(defn step
   "Axiomatisation of (non-deterministic) small step reduction for an abstract
    machine interpreter for L4.
 
@@ -60,6 +64,7 @@
    - https://www.cs.cmu.edu/~crary/papers/2018/twam.pdf
    - https://homepage.divms.uiowa.edu/~slonnegr/plf/Book/Chapter8.pdf
    "
+   [state]
   (if-let [state
            (not-empty
             (m/rewrites state
@@ -303,7 +308,7 @@
         #_((fn [[x y]] [x (first (step y))]))
         )))
 
-(defn test! []
+#_(defn test! []
   (js/console.log
    (->> {:ruleset '[(DECIDE p IF a)]
          :env {}
@@ -314,3 +319,15 @@
         step
         ))
   (js/console.log "Asked: " @asked))
+
+(defsession clara-session
+  'l4-rule-engine.clara)
+
+(defn test! []
+  (-> clara-session
+      (insert (->Edge 0 1) (->Edge 1 2))
+      (fire-rules)
+      ;; session->fact-graph
+      ;; inspect
+      explain-activations
+      js/console.log))
