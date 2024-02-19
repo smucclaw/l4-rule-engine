@@ -2,6 +2,7 @@
   (:require [clara.rules :refer [defsession fire-rules insert]]
             [clara.tools.inspect :refer [explain-activations inspect]]
             [l4-rule-engine.clara :refer [->Edge]]
+            [l4-rule-engine.tuprolog-kt]
             [meander.epsilon :as m]
             [meander.strategy.epsilon :as r]))
 

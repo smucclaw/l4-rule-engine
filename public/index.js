@@ -1,3 +1,5 @@
-import { step, test } from "./js/main.js";
+import "./js/main.js";
 
-console.log(test())
+// import { step, test } from "./js/main.js";
+
+// console.log(test())

@@ -5,6 +5,7 @@
  {:app
   {:target :esm
    :output-dir "public/js"
-   :modules {:main {:js-options {:js-provider :import}
+   :modules {:main {:js-options {:js-provider :external}
+                    :entries [l4-rule-engine.main]
                     :exports {test l4-rule-engine.main/test!
                               step l4-rule-engine.main/test!}}}}}}
