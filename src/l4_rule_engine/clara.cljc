@@ -15,6 +15,7 @@
    [Edge (= ?source source) (= ?target target)]
    [:and
     [Edge (= ?source source) (= ?target' target)]
-    [Path (= ?target' source) (= ?target target)]]]
+    [Path (= ?target' source) (= ?target target)]
+    [:test (= ?target' 0)]]]
   =>
   (insert! (->Path ?source ?target)))
