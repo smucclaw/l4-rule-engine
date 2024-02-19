@@ -1,10 +1,9 @@
 (ns l4-rule-engine.main
-  (:require [meander.epsilon :as m]
+  (:require [clara.rules :refer [defsession]]
+            [l4-rule-engine.odoyle :refer [rules]]
+            [meander.epsilon :as m]
             [meander.strategy.epsilon :as r]
-            [clara.rules :refer [defsession insert fire-rules]]
-            [clara.tools.fact-graph :refer [session->fact-graph]]
-            [clara.tools.inspect :refer [inspect explain-activations]]
-            [l4-rule-engine.clara :refer [->Edge]]))
+            [odoyle.rules :as odoyle]))
 
 (def ^:private asked (atom {}))
 
@@ -323,11 +322,19 @@
 (defsession clara-session
   'l4-rule-engine.clara)
 
-(defn test! []
+#_(defn test! []
   (-> clara-session
       (insert (->Edge 0 1) (->Edge 1 2))
       (fire-rules)
       ;; session->fact-graph
       ;; inspect
       explain-activations
+      js/console.log))
+
+(defn test! []
+  (-> (reduce odoyle/add-rule (odoyle/->session) rules)
+      (odoyle/insert :edge 0 1)
+      (odoyle/insert :edge 1 2)
+      (odoyle/fire-rules)
+      (odoyle/query-all)
       js/console.log))
