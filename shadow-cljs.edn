@@ -5,7 +5,8 @@
  {:app
   {:target :esm
    :output-dir "public/js"
-   :modules {:main {:js-options {:js-provider :external}
+   :modules {:main {:js-options {:js-provider :import}
+                    :force-imports #{"@tuprolog/2p-solve-classic"}
                     :entries [l4-rule-engine.main]
                     :exports {test l4-rule-engine.main/test!
                               step l4-rule-engine.main/test!}}}}}}

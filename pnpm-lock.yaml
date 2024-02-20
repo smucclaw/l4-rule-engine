@@ -14,9 +14,24 @@ dependencies:
   '@js-joda/timezone':
     specifier: ^2.18.2
     version: 2.18.2(@js-joda/core@5.6.1)
+  '@tuprolog/2p-core':
+    specifier: 0.30.5
+    version: 0.30.5
   '@tuprolog/2p-full':
     specifier: 0.32.1
     version: 0.32.1
+  '@tuprolog/2p-parser-theory':
+    specifier: 0.30.5
+    version: 0.30.5
+  '@tuprolog/2p-solve':
+    specifier: 0.30.5
+    version: 0.30.5
+  '@tuprolog/2p-solve-classic':
+    specifier: 0.30.5
+    version: 0.30.5
+  '@tuprolog/2p-theory':
+    specifier: 0.30.5
+    version: 0.30.5
 
 devDependencies:
   shadow-cljs:
@@ -47,6 +62,25 @@ packages:
       '@js-joda/core': 5.6.1
     dev: false
 
+  /@tuprolog/2p-core@0.30.5:
+    resolution: {integrity: sha512-UHSimzGmxXMkZLLLRlFH/6u8p5Za71IIDrD+/Bn0U1vyUxGo09kuxQY1NFGeVwTSJTMeTuc7PiIMdFksUAYZVA==}
+    dependencies:
+      '@tuprolog/2p-utils': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-dsl-theory@0.30.5:
+    resolution: {integrity: sha512-oJqm9iUtpLpAf65q8SFelHjhKJFs2Tcf1oKHGO7jqx7ComNvFdV2ZfduSQPqZyKeo9AwVgE+v6LA0K8ufn80GQ==}
+    dependencies:
+      '@tuprolog/2p-dsl-unify': 0.30.5
+      '@tuprolog/2p-theory': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-dsl-unify@0.30.5:
+    resolution: {integrity: sha512-5wSmPZ7z3230wGo74K0gJ4C3+f7QexzyqSbmsug2t+vkFYjpt/BK7VPD/KebnmhvJpfz7zMz47QuQNxlsoxM8Q==}
+    dependencies:
+      '@tuprolog/2p-theory': 0.30.5
+    dev: false
+
   /@tuprolog/2p-full@0.32.1:
     resolution: {integrity: sha512-5KaEcNv71i1xPS71+NT9bYqDVn1r0qnfBdJ474MeBlJLRB6j9WI22dLHOdgLFAB4yxihHIY6D+iylY2nAikY9A==}
     dependencies:
@@ -54,6 +88,59 @@ packages:
       format-util: 1.0.5
       sync-request: 6.1.0
       yaml: 1.10.0
+    dev: false
+
+  /@tuprolog/2p-parser-core@0.30.5:
+    resolution: {integrity: sha512-xACX+nIuJRfGlsHOgOta9p3RMF0rZERxzwV/hJ3QklKiXm76Lr8IPmX0KjOBebQ2ECMGf79/w3y1mgSYd/OxLg==}
+    dependencies:
+      '@tuprolog/2p-core': 0.30.5
+      '@tuprolog/2p-parser-js': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-parser-js@0.30.5:
+    resolution: {integrity: sha512-UEetYTYDFxw8o7osJ2Cgz/eiKYXYj5c5si4PYvbVCJLxO4A9qY43LUBpIJodCQk7E05Bjs+HCMkDSLi0SNPEOQ==}
+    dependencies:
+      '@tuprolog/parser-utils': 0.4.1
+      kotlin: 1.8.0
+    dev: false
+
+  /@tuprolog/2p-parser-theory@0.30.5:
+    resolution: {integrity: sha512-REOHarMKgaQ+1gU9dJ3koRzlWL9rwLYRiD3n+JrYNiO9OVRZq6ppdeY8lC2xJUEqxXmt0INzdRu0o0/UP1PYHg==}
+    dependencies:
+      '@tuprolog/2p-parser-core': 0.30.5
+      '@tuprolog/2p-theory': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-solve-classic@0.30.5:
+    resolution: {integrity: sha512-TlT2M7/uWWA68HeOoOlSNfp3IO3H7OtlHLVjkoZzguKGWhMPMLoOL9A49vVm01zOBTnr8sWajwUuj9Nfm86VGA==}
+    dependencies:
+      '@tuprolog/2p-dsl-theory': 0.30.5
+      '@tuprolog/2p-solve': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-solve@0.30.5:
+    resolution: {integrity: sha512-OD0/yFUSb9RsT+PA5yic5ye+vK0DhnBfh3JLHNcj1aNXFg704zNTWVhVvHFJ0fV16xnJuAxcrJSZ/kYDM8yiwA==}
+    dependencies:
+      '@tuprolog/2p-theory': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-theory@0.30.5:
+    resolution: {integrity: sha512-xIY0+D8X4T6O6X8nWg9OZWJwEVmbtGo7MwJJeprGfjQXdliHGBwO8BDQAG8G8vaB5iCPLDKb0tADkEmiCi0Pfw==}
+    dependencies:
+      '@tuprolog/2p-unify': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-unify@0.30.5:
+    resolution: {integrity: sha512-qFrc/7pSs/zxRhk78XsQg/8uumKKZh3wewdtjScyRlaj9wUZsTCE0cwR+XcSzvrk+cCwILQHxnJTWu2oxuNbRA==}
+    dependencies:
+      '@tuprolog/2p-core': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-utils@0.30.5:
+    resolution: {integrity: sha512-jK1vlnUc/crutNtmrzbS+65D7jBXxK8EVCkXLwKPwvUEjAeQlOYf8f8fPaGEvRRNMvG/uacAV8NuhchjaxaXtA==}
+    dependencies:
+      kotlin: 1.8.0
+      kt-math: 0.6.3
     dev: false
 
   /@tuprolog/parser-utils@0.4.1:
@@ -492,6 +579,20 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /kotlin@1.7.0:
+    resolution: {integrity: sha512-+bLf7i1n/2ebTgfxv59s8P7NcHUgOFfXTSTJgLCuGk1lkzWKpMXmpmJOXmfK52ntQGss3xT2Qfiu0fKiacprlw==}
+    dev: false
+
+  /kotlin@1.8.0:
+    resolution: {integrity: sha512-dG8r1MtV5x4dB2J8mPKSBZNEg/y8//bL7zOnqDKf4mg9iVEaBxoRvWzIi/NDgwZpaWR2bxHgRsx/fBUYe+govQ==}
+    dev: false
+
+  /kt-math@0.6.3:
+    resolution: {integrity: sha512-n28lMCacWHQQFfQGggSr/j2XjP05e+QvkHkyX7Zb1QgilviUDg24mTw1mzpYvTAGN8WdAHcPh/qi60iZ7PT5Aw==}
+    dependencies:
+      kotlin: 1.7.0
+    dev: false
 
   /md5.js@1.3.5:
     resolution: {integrity: sha512-xitP+WxNPcTTOgnTJcrhM0xvdPepipPSf3I8EIpGKeFLjt3PlJLIDG3u8EX53ZIubkb+5U2+3rELYpEhHhzdkg==}
