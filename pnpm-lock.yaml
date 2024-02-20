@@ -23,6 +23,12 @@ dependencies:
   '@tuprolog/2p-parser-theory':
     specifier: 0.30.5
     version: 0.30.5
+  '@tuprolog/2p-serialize-core':
+    specifier: 0.30.5
+    version: 0.30.5
+  '@tuprolog/2p-serialize-theory':
+    specifier: 0.30.5
+    version: 0.30.5
   '@tuprolog/2p-solve':
     specifier: 0.30.5
     version: 0.30.5
@@ -108,6 +114,20 @@ packages:
     resolution: {integrity: sha512-REOHarMKgaQ+1gU9dJ3koRzlWL9rwLYRiD3n+JrYNiO9OVRZq6ppdeY8lC2xJUEqxXmt0INzdRu0o0/UP1PYHg==}
     dependencies:
       '@tuprolog/2p-parser-core': 0.30.5
+      '@tuprolog/2p-theory': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-serialize-core@0.30.5:
+    resolution: {integrity: sha512-xUaZ6906V8qd2nT/Xx/ePMSGOp/fd8zwWZOrbrgdA5b1AcPybWaYVZBuy4XGqaGPCCWb8/fY8zwOVDOnKrIlNA==}
+    dependencies:
+      '@tuprolog/2p-core': 0.30.5
+      yaml: 1.10.0
+    dev: false
+
+  /@tuprolog/2p-serialize-theory@0.30.5:
+    resolution: {integrity: sha512-wg6gTJg5R8Dj10UUfvDEE5tmiboWF3bQfUlK3aTZsxKJBOI5KDH4ncOpeRhJzbm24tq97O0IMsgMChkiNUzOdQ==}
+    dependencies:
+      '@tuprolog/2p-serialize-core': 0.30.5
       '@tuprolog/2p-theory': 0.30.5
     dev: false
 

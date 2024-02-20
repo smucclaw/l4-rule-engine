@@ -13,6 +13,7 @@
 ;; https://github.com/tuProlog/arg2p-kt-web
 ;; https://github.com/tuProlog/2pkt-problog-compatibility-demo/tree/master/js 
 ;;
+;; https://github.com/tuProlog/2p-kt-presentation/releases/tag/1.2.0-2021-06-28T100324
 ;; https://amslaurea.unibo.it/19444/1/2p_kt.pdf
 ;; https://amslaurea.unibo.it/24958/1/thesis_giordano.pdf
 
@@ -71,7 +72,7 @@
 (def solver
   (let [classic-solver-factory (jsi/get-in tu-prolog
                                            [:classic :ClassicSolverFactory])
-        solver (jsi/call classic-solver-factory :rawMutableSolverOf)]
+        solver (jsi/call classic-solver-factory :mutableSolverOf)]
     (jsi/call solver :loadStaticKb program)
     solver))
 
