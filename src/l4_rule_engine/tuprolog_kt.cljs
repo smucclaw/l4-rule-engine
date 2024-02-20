@@ -60,7 +60,10 @@
               #js [(jsi/call scope :varOf "X") (jsi/call scope :varOf "Y")])))
 
 (def program
-  (->> "edge(0, 1).\nedge(1, 2).\npath(X, Y) :- edge(X, Y).\npath(X, Y) :- edge(X, Z), path(Z,  Y)."
+  (->> "edge(0, 1).
+        edge(1, 2).
+        path(X, Y) :- edge(X, Y).
+        path(X, Y) :- edge(X, Z), path(Z,  Y)."
        (jsi/call-in tu-prolog [:theory :parsing :parseAsTheory])))
 
 #_(js/console.log "Program: " program)
