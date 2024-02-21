@@ -47,7 +47,7 @@
 (jsi/assoc! tu-prolog :solve solve)
 (jsi/assoc! tu-prolog :classic classic)
 
-(js/console.log tu-prolog)
+(js/console.log "Tu prolog: " tu-prolog)
 
 #_(def query
   (->> "person(X)"
@@ -55,7 +55,8 @@
 
 (def query
   (let [scope (jsi/call-in tu-prolog [:core :Scope :Companion :empty])]
-    (jsi/call scope :structOf
+    (jsi/call scope
+              :structOf
               "path"
               #js [(jsi/call scope :varOf "X") (jsi/call scope :varOf "Y")])))
 
@@ -73,8 +74,8 @@
     (js/console.log))
 
 (def solver
-  (let [classic-solver-factory (jsi/get-in tu-prolog
-                                           [:classic :ClassicSolverFactory])
+  (let [classic-solver-factory
+        (jsi/get-in tu-prolog [:classic :ClassicSolverFactory])
         solver (jsi/call classic-solver-factory :mutableSolverOf)]
     (jsi/call solver :loadStaticKb program)
     solver))
