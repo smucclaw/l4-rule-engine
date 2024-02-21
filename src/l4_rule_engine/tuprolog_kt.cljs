@@ -57,14 +57,15 @@
   (let [scope (jsi/call-in tu-prolog [:core :Scope :Companion :empty])]
     (jsi/call scope
               :structOf
-              "path"
-              #js [(jsi/call scope :varOf "X") (jsi/call scope :varOf "Y")])))
+              "p"
+              #js [(jsi/call scope :varOf "X")])))
 
 (def program
-  (->> "edge(0, 1).
-        edge(1, 2).
-        path(X, Y) :- edge(X, Y).
-        path(X, Y) :- edge(X, Z), path(Z,  Y)."
+  (->> ":- set_prolog_flag(track_variables, on).
+        q(X) :- X = 0.
+        q(X) :- X = 1.
+        q(X) :- X = 2.
+        p(L) :- setof(X, q(X), L)."
        (jsi/call-in tu-prolog [:theory :parsing :parseAsTheory])))
 
 #_(js/console.log "Program: " program)
@@ -76,14 +77,20 @@
 (def solver
   (let [classic-solver-factory
         (jsi/get-in tu-prolog [:classic :ClassicSolverFactory])
-        solver (jsi/call classic-solver-factory :mutableSolverOf)]
+        solver (jsi/call classic-solver-factory :mutableSolverWithDefaultBuiltinsAnd)]
     (jsi/call solver :loadStaticKb program)
     solver))
 
 (def solutions
-  (jsi/call solver :solveList query))
+  (jsi/call solver :solve query))
+
+(->> solver
+     str
+     (js/console.log "Initial solver: "))
 
 (-> solutions
+    (jsi/call :iterator)
+    (jsi/call :next)
     str
     ;; es6-iterator-seq
     (js/console.log))
@@ -93,10 +100,19 @@
 (def current-context
   (jsi/get solver :currentContext))
 
-(js/console.log "Current solver context: " current-context)
+(->> solver
+     str
+     (js/console.log "Solver: "))
+
+(->> current-context
+     str
+     (js/console.log "Current solver context: "))
 
 (-> current-context
-    (jsi/get-in [:logicStackTrace])
-    str
-    #_(jsi/call :toArray)
+    (jsi/get :choicePoints)
+    (jsi/get :executionContext)
+    (jsi/get :choicePoints)
+    (jsi/get :executionContext)
+    ;; (jsi/get :goals)
+    #_str
     (js/console.log))

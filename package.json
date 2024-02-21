@@ -22,6 +22,7 @@
     "@tuprolog/2p-parser-theory": "0.30.5",
     "@tuprolog/2p-solve": "0.30.5",
     "@tuprolog/2p-solve-classic": "0.30.5",
+    "@tuprolog/2p-solve-streams": "0.30.5",
     "@tuprolog/2p-theory": "0.30.5",
     "@tuprolog/2p-serialize-core": "0.30.5",
     "@tuprolog/2p-serialize-theory": "0.30.5"

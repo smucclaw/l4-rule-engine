@@ -35,6 +35,9 @@ dependencies:
   '@tuprolog/2p-solve-classic':
     specifier: 0.30.5
     version: 0.30.5
+  '@tuprolog/2p-solve-streams':
+    specifier: 0.30.5
+    version: 0.30.5
   '@tuprolog/2p-theory':
     specifier: 0.30.5
     version: 0.30.5
@@ -133,6 +136,13 @@ packages:
 
   /@tuprolog/2p-solve-classic@0.30.5:
     resolution: {integrity: sha512-TlT2M7/uWWA68HeOoOlSNfp3IO3H7OtlHLVjkoZzguKGWhMPMLoOL9A49vVm01zOBTnr8sWajwUuj9Nfm86VGA==}
+    dependencies:
+      '@tuprolog/2p-dsl-theory': 0.30.5
+      '@tuprolog/2p-solve': 0.30.5
+    dev: false
+
+  /@tuprolog/2p-solve-streams@0.30.5:
+    resolution: {integrity: sha512-d7zNoosObOdvVP5SD8342mUr1qespEdVjXVMr/KvkBIjZZwRIPsnsltMm/o79/whgUSJ5+B69cCkwnvRK4Vdrg==}
     dependencies:
       '@tuprolog/2p-dsl-theory': 0.30.5
       '@tuprolog/2p-solve': 0.30.5
