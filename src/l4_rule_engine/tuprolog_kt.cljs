@@ -49,23 +49,26 @@
 
 (js/console.log "Tu prolog: " tu-prolog)
 
-#_(def query
-  (->> "person(X)"
-       (jsi/call-in tu-prolog [:core :parsing :parseStringAsStruct])))
-
 (def query
-  (let [scope (jsi/call-in tu-prolog [:core :Scope :Companion :empty])]
-    (jsi/call scope
-              :structOf
-              "p"
-              #js [(jsi/call scope :varOf "X")])))
+  (->> "p(1)"
+       (jsi/call-in tu-prolog [:core :parsing :parseStringAsStruct]))
+  #_(let [scope (jsi/call-in tu-prolog [:core :Scope :Companion :empty])]
+      (jsi/call scope
+                :structOf
+                "p"
+                #js [(jsi/call scope :varOf "X")])))
 
 (def program
   (->> ":- set_prolog_flag(track_variables, on).
-        q(X) :- X = 0.
-        q(X) :- X = 1.
-        q(X) :- X = 2.
-        p(L) :- setof(X, q(X), L)."
+        % q(X) :- X = 0.
+        % q(X) :- X = 1.
+        % q(X) :- X = 2.
+        % p(L) :- setof(X, q(X), L).
+
+
+        q(X) :- Y is X, Y = 0.
+        p(X) :- \\+ q(X).
+        "
        (jsi/call-in tu-prolog [:theory :parsing :parseAsTheory])))
 
 #_(js/console.log "Program: " program)
@@ -111,8 +114,8 @@
 (-> current-context
     (jsi/get :choicePoints)
     (jsi/get :executionContext)
-    (jsi/get :choicePoints)
-    (jsi/get :executionContext)
-    ;; (jsi/get :goals)
-    #_str
+    ;; (jsi/get :choicePoints)
+    ;; (jsi/get :executionContext)
+    (jsi/get :goals)
+    str
     (js/console.log))
