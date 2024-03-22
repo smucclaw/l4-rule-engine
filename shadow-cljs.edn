@@ -5,8 +5,11 @@
  {:app
   {:target :esm
    :output-dir "public/js"
-   :modules {:main {:js-options {:js-provider :import}
-                    :force-imports #{"@tuprolog/2p-solve-classic"}
-                    :entries [l4-rule-engine.main]
-                    :exports {test l4-rule-engine.main/test!
-                              step l4-rule-engine.main/test!}}}}}}
+   :modules
+   {:main {:js-options {:js-provider :import}
+           :compiler-options {:output-feature-set :es2021}
+           :optimizations :advanced
+           :force-imports #{"@tuprolog/2p-solve-classic"}
+           :entries [l4-rule-engine.main]
+           :exports {test l4-rule-engine.main/test!
+                     step l4-rule-engine.main/test!}}}}}}
