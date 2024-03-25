@@ -18,8 +18,8 @@ dependencies:
     specifier: 0.30.5
     version: 0.30.5
   '@tuprolog/2p-full':
-    specifier: 0.32.1
-    version: 0.32.1
+    specifier: 0.32.5
+    version: 0.32.5
   '@tuprolog/2p-parser-theory':
     specifier: 0.30.5
     version: 0.30.5
@@ -90,8 +90,8 @@ packages:
       '@tuprolog/2p-theory': 0.30.5
     dev: false
 
-  /@tuprolog/2p-full@0.32.1:
-    resolution: {integrity: sha512-5KaEcNv71i1xPS71+NT9bYqDVn1r0qnfBdJ474MeBlJLRB6j9WI22dLHOdgLFAB4yxihHIY6D+iylY2nAikY9A==}
+  /@tuprolog/2p-full@0.32.5:
+    resolution: {integrity: sha512-jkN/2CQrk7zbuSxa0Ses723gvY8b4Ymq8kjN1Z3b4mAO5oDpFWNNauCrd0ZSwESauL8ShrDI0qfytGoiQxfS4g==}
     dependencies:
       '@tuprolog/parser-utils': 0.4.1
       format-util: 1.0.5
