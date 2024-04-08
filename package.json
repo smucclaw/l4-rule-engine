@@ -18,7 +18,7 @@
     "@js-joda/locale_en-us": "^4.8.11",
     "@js-joda/timezone": "^2.18.3",
     "@tuprolog/2p-core": "0.30.5",
-    "@tuprolog/2p-full": "1.0.0",
+    "@tuprolog/2p-full": "1.0.1",
     "@tuprolog/2p-parser-theory": "0.30.5",
     "@tuprolog/2p-serialize-core": "0.30.5",
     "@tuprolog/2p-serialize-theory": "0.30.5",
