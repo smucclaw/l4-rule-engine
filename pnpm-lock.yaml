@@ -21,8 +21,8 @@ importers:
         specifier: 0.30.5
         version: 0.30.5
       '@tuprolog/2p-full':
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: 1.0.3
+        version: 1.0.3
       '@tuprolog/2p-parser-theory':
         specifier: 0.30.5
         version: 0.30.5
@@ -74,8 +74,8 @@ packages:
   '@tuprolog/2p-dsl-unify@0.30.5':
     resolution: {integrity: sha512-5wSmPZ7z3230wGo74K0gJ4C3+f7QexzyqSbmsug2t+vkFYjpt/BK7VPD/KebnmhvJpfz7zMz47QuQNxlsoxM8Q==}
 
-  '@tuprolog/2p-full@1.0.2':
-    resolution: {integrity: sha512-Js7/znRA/MJT18PM3uE5Cv6C/dZ3bkv6F1ZmAcVeHbHZpndQJ9Js/6yZuYDgV/vEiSwU+yBmphh2gIUbaKWOLA==}
+  '@tuprolog/2p-full@1.0.3':
+    resolution: {integrity: sha512-/INL+YpsxXCWftrIVjTyuWqB43ynEiKqDkVh1Zb/tyHjjGSgAMil0pLvb7zC1BSy1m1qF2ArFGg4gcBkmm/ETw==}
 
   '@tuprolog/2p-parser-core@0.30.5':
     resolution: {integrity: sha512-xACX+nIuJRfGlsHOgOta9p3RMF0rZERxzwV/hJ3QklKiXm76Lr8IPmX0KjOBebQ2ECMGf79/w3y1mgSYd/OxLg==}
@@ -586,7 +586,7 @@ snapshots:
     dependencies:
       '@tuprolog/2p-theory': 0.30.5
 
-  '@tuprolog/2p-full@1.0.2':
+  '@tuprolog/2p-full@1.0.3':
     dependencies:
       '@tuprolog/parser-utils': 0.4.1
       format-util: 1.0.5
@@ -651,11 +651,11 @@ snapshots:
 
   '@types/concat-stream@1.6.1':
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.60
 
   '@types/form-data@0.0.33':
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.60
 
   '@types/node@10.17.60': {}
 
