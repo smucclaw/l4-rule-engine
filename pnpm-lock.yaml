@@ -12,8 +12,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       '@js-joda/locale_en-us':
-        specifier: ^4.11.0
-        version: 4.11.0(@js-joda/core@5.6.2)(@js-joda/timezone@2.21.0(@js-joda/core@5.6.2))
+        specifier: ^4.14.0
+        version: 4.14.0(@js-joda/core@5.6.2)(@js-joda/timezone@2.21.0(@js-joda/core@5.6.2))
       '@js-joda/timezone':
         specifier: ^2.21.0
         version: 2.21.0(@js-joda/core@5.6.2)
@@ -54,8 +54,8 @@ packages:
   '@js-joda/core@5.6.2':
     resolution: {integrity: sha512-ow4R+7C24xeTjiMTTZ4k6lvxj7MRBqvqLCQjThQff3RjOmIMokMP20LNYVFhGafJtUx/Xo2Qp4qU8eNoTVH0SA==}
 
-  '@js-joda/locale_en-us@4.11.0':
-    resolution: {integrity: sha512-AhBwtKtDg6MiM4fkZeQ2u56vw+a/urherreU/1tBt0Q9npAq4HIQ0lWPLBlB/78/cgDA6GryGBZX68J7iLLNAQ==}
+  '@js-joda/locale_en-us@4.14.0':
+    resolution: {integrity: sha512-iPbGT32FDwomeXOI2VXLY9jzYRRip7GaU5Ahyj9bymuRCo2sv1tRa5iXW/0ofRcEDlEtf7KWHHgkmEMUftasGw==}
     peerDependencies:
       '@js-joda/core': '>=3.2.0'
       '@js-joda/timezone': ^2.3.0
@@ -540,8 +540,8 @@ packages:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
     hasBin: true
 
-  ws@7.5.9:
-    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
+  ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -564,7 +564,7 @@ snapshots:
 
   '@js-joda/core@5.6.2': {}
 
-  '@js-joda/locale_en-us@4.11.0(@js-joda/core@5.6.2)(@js-joda/timezone@2.21.0(@js-joda/core@5.6.2))':
+  '@js-joda/locale_en-us@4.14.0(@js-joda/core@5.6.2)(@js-joda/timezone@2.21.0(@js-joda/core@5.6.2))':
     dependencies:
       '@js-joda/core': 5.6.2
       '@js-joda/timezone': 2.21.0(@js-joda/core@5.6.2)
@@ -1120,7 +1120,7 @@ snapshots:
       shadow-cljs-jar: 1.3.4
       source-map-support: 0.4.18
       which: 1.3.1
-      ws: 7.5.9
+      ws: 7.5.10
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -1214,7 +1214,7 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  ws@7.5.9: {}
+  ws@7.5.10: {}
 
   xtend@4.0.2: {}
 
